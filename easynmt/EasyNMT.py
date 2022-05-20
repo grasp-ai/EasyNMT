@@ -14,11 +14,9 @@ import re
 import logging
 import time
 import os
-import watchtower
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger.addHandler(watchtower.CloudWatchLogHandler(log_group_name="service_embedder"))
 
 
 class EasyNMT:
