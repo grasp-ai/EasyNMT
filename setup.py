@@ -22,6 +22,8 @@ setup(
         'numpy',
         'nltk',
         'sentencepiece',
+        'bitsandbytes',
+        'accelerate'
         'fasttext'
     ],
     classifiers=[

@@ -28,7 +28,7 @@ class AutoModel:
         if tokenizer_name == ".":
             tokenizer_name = easynmt_path
 
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, load_in_8bit=True)
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, **self.tokenizer_args)
 
 
