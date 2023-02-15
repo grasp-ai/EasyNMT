@@ -23,7 +23,7 @@ setup(
         'nltk',
         'sentencepiece',
         'bitsandbytes',
-        'accelerate'
+        'accelerate',
         'fasttext'
     ],
     classifiers=[
