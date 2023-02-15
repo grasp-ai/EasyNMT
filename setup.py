@@ -22,7 +22,7 @@ setup(
         'numpy',
         'nltk',
         'sentencepiece',
-        'bitsandbytes-cuda110',
+        'bitsandbytes-cuda120',
         'accelerate',
         'fasttext'
     ],
