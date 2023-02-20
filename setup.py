@@ -22,6 +22,7 @@ setup(
         'numpy',
         'nltk',
         'sentencepiece',
+        'optimum[onnx_runtime]',
         # 'bitsandbytes',
         # 'accelerate',
         'fasttext'

@@ -1,4 +1,6 @@
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+# from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoTokenizer
+from optimum.onnx_runtime import ORTModelForSeq2SeqLM
 import torch
 from typing import List
 import logging
@@ -29,7 +31,8 @@ class AutoModel:
             tokenizer_name = easynmt_path
 
         # self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, load_in_8bit=True, device_map="auto")
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).half()
+        # self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).half()
+        self.model = ORTModelForSeq2SeqLM.from_pretrained(model_name, from_transformers=True)
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, **self.tokenizer_args)
 
 
