@@ -1,6 +1,6 @@
 # from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from transformers import AutoTokenizer
-from optimum.onnx_runtime import ORTModelForSeq2SeqLM
+from optimum.onnxruntime import ORTModelForSeq2SeqLM
 import torch
 from typing import List
 import logging
