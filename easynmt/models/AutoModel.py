@@ -34,7 +34,7 @@ class AutoModel:
 
 
     def translate_sentences(self, sentences: List[str], source_lang: str, target_lang: str, device: str, beam_size: int = 5, **kwargs):
-        self.model.to(device)
+        # self.model.to(device)
 
         if source_lang in self.lang_map:
             source_lang = self.lang_map[source_lang]
