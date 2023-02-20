@@ -22,9 +22,8 @@ setup(
         'numpy',
         'nltk',
         'sentencepiece',
-        'optimum[onnxruntime]',
-        # 'bitsandbytes',
-        # 'accelerate',
+        'bitsandbytes',
+        'accelerate',
         'fasttext'
     ],
     classifiers=[
