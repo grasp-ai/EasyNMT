@@ -1,8 +1,7 @@
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, AutoConfig
-from accelerate import init_empty_weights, load_checkpoint_and_dispatch
-import torch
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from typing import List
 import logging
+
 
 
 logger = logging.getLogger(__name__)
@@ -30,16 +29,7 @@ class AutoModel:
         
 
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, **self.tokenizer_args)
-        
-        PATH_TO_DIR = "/home/ec2-user/.cache/huggingface/hub/models--facebook--m2m100_1.2B/snapshots/c24bcaa3d5101a2535d96f0029af4bebf124cfe6"
-        config = AutoConfig.from_pretrained(PATH_TO_DIR + "/config.json")
-
-        with init_empty_weights():
-            model = AutoModelForSeq2SeqLM.from_config(config)
-
-        self.model = load_checkpoint_and_dispatch(model, PATH_TO_DIR + "/pytorch_model.bin", device_map="auto").half()
-
-        
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).half()
 
 
     def translate_sentences(self, sentences: List[str], source_lang: str, target_lang: str, device: str, beam_size: int = 5, **kwargs):
