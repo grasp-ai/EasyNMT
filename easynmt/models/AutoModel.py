@@ -35,9 +35,9 @@ class AutoModel:
         config = AutoConfig.from_pretrained(PATH_TO_DIR + "/config.json")
 
         with init_empty_weights():
-            model = AutoModelForSeq2SeqLM.from_config(config)
+            self.model = AutoModelForSeq2SeqLM.from_config(config)
 
-        model = load_checkpoint_and_dispatch(model, PATH_TO_DIR + "/pytorch_model.bin", device_map="auto").half()
+        self.model = load_checkpoint_and_dispatch(model, PATH_TO_DIR + "/pytorch_model.bin", device_map="auto").half()
 
         
 
