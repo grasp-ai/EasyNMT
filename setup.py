@@ -22,7 +22,8 @@ setup(
         'numpy',
         'nltk',
         'sentencepiece',
-        'fasttext'
+        'fasttext',
+        'accelerate'
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
