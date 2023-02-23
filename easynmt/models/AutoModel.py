@@ -1,4 +1,4 @@
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, AutoConfig
 import torch
 from typing import List
 import logging
@@ -27,9 +27,10 @@ class AutoModel:
 
         if tokenizer_name == ".":
             tokenizer_name = easynmt_path
+        
 
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).half()
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, **self.tokenizer_args)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 
     def translate_sentences(self, sentences: List[str], source_lang: str, target_lang: str, device: str, beam_size: int = 5, **kwargs):
