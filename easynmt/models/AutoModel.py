@@ -1,4 +1,5 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+import torch
 from typing import List
 import logging
 
