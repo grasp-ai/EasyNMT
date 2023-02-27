@@ -27,9 +27,10 @@ class AutoModel:
 
         if tokenizer_name == ".":
             tokenizer_name = easynmt_path
+        
 
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, **self.tokenizer_args)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).half()
 
 
     def translate_sentences(self, sentences: List[str], source_lang: str, target_lang: str, device: str, beam_size: int = 5, **kwargs):
