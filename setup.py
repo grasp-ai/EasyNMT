@@ -21,7 +21,6 @@ setup(
         'torch>=1.6.0',
         'numpy',
         'nltk',
-        'thai-segmenter',
         'sentencepiece',
         'fasttext'
     ],
