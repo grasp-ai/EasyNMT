@@ -196,8 +196,8 @@ class EasyNMT:
 
         if is_single_doc:
             translated_docs = translated_docs[0]
-        print(f"{translated_docs = }")
-        return translated_docs
+        print(f"{translated_docs = }, {translated_sentences = }")
+        return translated_sentences
 
     @staticmethod
     def _reconstruct_document(doc, org_sent, translated_sent):
