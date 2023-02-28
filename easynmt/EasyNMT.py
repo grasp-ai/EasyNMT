@@ -147,11 +147,10 @@ class EasyNMT:
                 try:
                     method_args['documents'] = [documents[idx] for idx in ids]
                     method_args['source_lang'] = lng
-                    translated = self.translate(**method_args)
-                    print(f"{translated=}")
-                    for idx, translated_sentences in zip(ids, translated):
-                        # output[idx] = translated_sentences
-                        output.append(translated_sentences)
+                    output = self.translate(**method_args)
+                    # translated = self.translate(**method_args)
+                    # for idx, translated_sentences in zip(ids, translated):
+                    #     output[idx] = translated_sentences
                 except Exception as e:
                     logger.warning("Exception: " + str(e))
                     pass
@@ -184,22 +183,22 @@ class EasyNMT:
                                                             show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
 
             # Merge sentences back to documents
-            start_time = time.time()
-            translated_docs = []
-            for doc_idx in range(len(documents)):
-                start_idx = sent2doc[doc_idx - 1] if doc_idx > 0 else 0
-                end_idx = sent2doc[doc_idx]
-                translated_docs.append(self._reconstruct_document(
-                    documents[doc_idx], splitted_sentences[start_idx:end_idx], translated_sentences[start_idx:end_idx]))
+        #     start_time = time.time()
+        #     translated_docs = []
+        #     for doc_idx in range(len(documents)):
+        #         start_idx = sent2doc[doc_idx - 1] if doc_idx > 0 else 0
+        #         end_idx = sent2doc[doc_idx]
+        #         translated_docs.append(self._reconstruct_document(
+        #             documents[doc_idx], splitted_sentences[start_idx:end_idx], translated_sentences[start_idx:end_idx]))
 
-            #logger.info("Document reconstruction done after: {:.2f} sec".format(time.time() - start_time))
-        else:
-            translated_docs = self.translate_sentences(documents, target_lang=target_lang, source_lang=source_lang,
-                                                       show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
+        #     #logger.info("Document reconstruction done after: {:.2f} sec".format(time.time() - start_time))
+        # else:
+        #     translated_docs = self.translate_sentences(documents, target_lang=target_lang, source_lang=source_lang,
+        #                                                show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
 
-        if is_single_doc:
-            translated_docs = translated_docs[0]
-        print(f"{translated_docs = }, {translated_sentences = }")
+        # if is_single_doc:
+        #     translated_docs = translated_docs[0]
+        # print(f"{translated_docs = }, {translated_sentences = }")
         return translated_sentences
 
     @staticmethod
