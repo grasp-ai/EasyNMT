@@ -134,14 +134,13 @@ class EasyNMT:
 
         if source_lang is None and document_language_detection:
             src_langs = [self.language_detection(doc) for doc in documents]
-            print(f"{src_langs=}")
+            
             # Group by languages
             lang2id = {}
             for idx, lng in enumerate(src_langs):
                 if lng not in lang2id:
                     lang2id[lng] = []
                 lang2id[lng].append(idx)
-            print(f"{lang2id=}")
             # Translate language wise
             # output = [None] * len(documents)
             output = []
