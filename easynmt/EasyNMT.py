@@ -97,7 +97,7 @@ class EasyNMT:
 
     def translate(self, documents: Union[str, List[str]], target_lang: str, source_lang: str = None,
                   show_progress_bar: bool = False, beam_size: int = 5, batch_size: int = 16,
-                  perform_sentence_splitting: bool = True, paragraph_split: str = "\n", sentence_splitter=None, document_language_detection: bool = True,
+                  paragraph_split: str = "\n", sentence_splitter=None, document_language_detection: bool = True,
                   **kwargs):
         """
         This method translates the given set of documents
@@ -125,7 +125,7 @@ class EasyNMT:
             sentence_splitter = self.sentence_splitting
 
         if source_lang == target_lang:
-            return perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
+            return self.perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
 
         is_single_doc = False
         if isinstance(documents, str):
@@ -179,7 +179,7 @@ class EasyNMT:
             #logger.info("Sentence splitting done after: {:.2f} sec".format(time.time() - start_time))
             #logger.info("Translate {} sentences".format(len(splitted_sentences)))
 
-        splitted_sentences = perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
+        splitted_sentences = self.perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
         translated_sentences = self.translate_sentences(splitted_sentences, target_lang=target_lang, source_lang=source_lang,
                                                             show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
 
