@@ -196,7 +196,7 @@ class EasyNMT:
 
         if is_single_doc:
             translated_docs = translated_docs[0]
-
+        print(f"{translated_docs = }")
         return translated_docs
 
     @staticmethod
