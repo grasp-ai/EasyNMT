@@ -121,8 +121,11 @@ class EasyNMT:
         del method_args['kwargs']
         method_args.update(kwargs)
 
+        if sentence_splitter is None:
+            sentence_splitter = self.sentence_splitting
+
         if source_lang == target_lang:
-            return documents
+            return perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
 
         is_single_doc = False
         if isinstance(documents, str):
@@ -160,26 +163,24 @@ class EasyNMT:
 
             return output
 
-        if perform_sentence_splitting:
-            if sentence_splitter is None:
-                sentence_splitter = self.sentence_splitting
+        # if perform_sentence_splitting:
+        #     if sentence_splitter is None:
+        #         sentence_splitter = self.sentence_splitting
 
             # Split document into sentences
-            start_time = time.time()
-            splitted_sentences = []
-            sent2doc = []
-            for doc in documents:
-                paragraphs = doc.split(paragraph_split) if paragraph_split is not None else [doc]
-                for para in paragraphs:
-                    for sent in sentence_splitter(para.strip(), source_lang):
-                        sent = sent.strip()
-                        if len(sent) > 0:
-                            splitted_sentences.append(sent)
-                sent2doc.append(len(splitted_sentences))
+            # splitted_sentences = []
+            # for doc in documents:
+            #     paragraphs = doc.split(paragraph_split) if paragraph_split is not None else [doc]
+            #     for para in paragraphs:
+            #         for sent in sentence_splitter(para.strip(), source_lang):
+            #             sent = sent.strip()
+            #             if len(sent) > 0:
+            #                 splitted_sentences.append(sent)
             #logger.info("Sentence splitting done after: {:.2f} sec".format(time.time() - start_time))
             #logger.info("Translate {} sentences".format(len(splitted_sentences)))
 
-            translated_sentences = self.translate_sentences(splitted_sentences, target_lang=target_lang, source_lang=source_lang,
+        splitted_sentences = perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
+        translated_sentences = self.translate_sentences(splitted_sentences, target_lang=target_lang, source_lang=source_lang,
                                                             show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
 
             # Merge sentences back to documents
@@ -200,6 +201,30 @@ class EasyNMT:
         #     translated_docs = translated_docs[0]
         # print(f"{translated_docs = }, {translated_sentences = }")
         return translated_sentences
+
+    def perform_sentence_splitting(self, documents, source_lang, paragraph_split, sentence_splitter):
+        """
+        This method splits the documents into sentences
+        :param documents: List of documents
+        :param source_lang: Source language
+        :param paragraph_split: Split symbol for paragraphs. No sentences can go across the paragraph_split symbol.
+        :param sentence_splitter: Method used to split sentences. If None, uses the default self.sentence_splitting method
+        :return: Returns a list of sentences and a list of document indices for each sentence
+        """
+
+        # Split document into sentences
+        splitted_sentences = []
+        for doc in documents:
+            paragraphs = doc.split(paragraph_split) if paragraph_split is not None else [doc]
+            for para in paragraphs:
+                for sent in sentence_splitter(para.strip(), source_lang):
+                    sent = sent.strip()
+                    if len(sent) > 0:
+                        splitted_sentences.append(sent)
+
+        return splitted_sentences
+    
+
 
     @staticmethod
     def _reconstruct_document(doc, org_sent, translated_sent):
