@@ -150,7 +150,8 @@ class EasyNMT:
                 try:
                     method_args['documents'] = [documents[idx] for idx in ids]
                     method_args['source_lang'] = lng
-                    output.append(self.translate(**method_args))
+                    translations, mappings = self.translate(**method_args)
+                    print(f"{translations = }, {mappings = }")
                     # translated = self.translate(**method_args)
                     # for idx, translated_sentences in zip(ids, translated):
                     #     output[idx] = translated_sentences
