@@ -141,6 +141,7 @@ class EasyNMT:
                 if lng not in lang2id:
                     lang2id[lng] = []
                 lang2id[lng].append(idx)
+            print(f"{lang2id = }")
             # Translate language wise
             # output = [None] * len(documents)
             output = []
