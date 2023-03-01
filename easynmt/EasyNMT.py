@@ -178,7 +178,7 @@ class EasyNMT:
             #logger.info("Sentence splitting done after: {:.2f} sec".format(time.time() - start_time))
             #logger.info("Translate {} sentences".format(len(splitted_sentences)))
 
-        splitted_sentences = self.perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
+        splitted_sentences, sent2doc = self.perform_sentence_splitting(documents, source_lang, paragraph_split, sentence_splitter)
         translated_sentences = self.translate_sentences(splitted_sentences, target_lang=target_lang, source_lang=source_lang,
                                                             show_progress_bar=show_progress_bar, beam_size=beam_size, batch_size=batch_size, **kwargs)
 
@@ -199,7 +199,7 @@ class EasyNMT:
         # if is_single_doc:
         #     translated_docs = translated_docs[0]
         # print(f"{translated_docs = }, {translated_sentences = }")
-        return translated_sentences
+        return translated_sentences, sent2doc
 
     def perform_sentence_splitting(self, documents, source_lang, paragraph_split, sentence_splitter):
         """
@@ -210,9 +210,8 @@ class EasyNMT:
         :param sentence_splitter: Method used to split sentences. If None, uses the default self.sentence_splitting method
         :return: Returns a list of sentences and a list of document indices for each sentence
         """
-
-        # Split document into sentences
         splitted_sentences = []
+        sent2doc = []
         for doc in documents:
             paragraphs = doc.split(paragraph_split) if paragraph_split is not None else [doc]
             for para in paragraphs:
@@ -220,8 +219,9 @@ class EasyNMT:
                     sent = sent.strip()
                     if len(sent) > 0:
                         splitted_sentences.append(sent)
+            sent2doc.append(len(splitted_sentences))
 
-        return splitted_sentences
+        return splitted_sentences, sent2doc
     
 
 
